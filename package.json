@@ -1,18 +1,48 @@
 {
-  "name": "react-native-zss-rich-text-editor",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/wix/react-native-zss-rich-text-editor.git"
+  "_from": "react-native-zss-rich-text-editor",
+  "_id": "react-native-zss-rich-text-editor@1.0.2",
+  "_inBundle": false,
+  "_integrity": "sha1-h+XESP5YCBtRuUfQd1MHAHNanKY=",
+  "_location": "/react-native-zss-rich-text-editor",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "react-native-zss-rich-text-editor",
+    "name": "react-native-zss-rich-text-editor",
+    "escapedName": "react-native-zss-rich-text-editor",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
   },
-  "version": "1.0.2",
-  "description": "React Native Wrapper for ZSSRichTextEditor",
-  "main": "index.js",
-  "license": "SEE LICENSE IN LICENSE",
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-zss-rich-text-editor/-/react-native-zss-rich-text-editor-1.0.2.tgz",
+  "_shasum": "87e5c448fe58081b51b947d077530700735a9ca6",
+  "_spec": "react-native-zss-rich-text-editor",
+  "_where": "/home/seba/projects/TipHive/TipHiveMobile",
+  "bugs": {
+    "url": "https://github.com/wix/react-native-zss-rich-text-editor/issues"
+  },
+  "bundleDependencies": false,
   "dependencies": {
-    "react-native-webview-bridge-updated": "^1.0.0"
+    "react-native-webview-messaging": "^1.0.2"
   },
+  "deprecated": false,
+  "description": "React Native Wrapper for ZSSRichTextEditor",
+  "homepage": "https://github.com/wix/react-native-zss-rich-text-editor#readme",
+  "license": "SEE LICENSE IN LICENSE",
+  "main": "index.js",
+  "name": "react-native-zss-rich-text-editor",
   "peerDependencies": {
     "react": "*",
     "react-native": ">=0.31.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wix/react-native-zss-rich-text-editor.git"
+  },
+  "version": "1.0.2"
 }

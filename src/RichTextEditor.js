@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
-import WebViewBridge from 'react-native-webview-bridge-updated';
 import {InjectedMessageHandler} from './WebviewMessageHandler';
+import { WebView } from 'react-native-webview-messaging/WebView';
 import {actions, messages} from './const';
-import {Modal, View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, PixelRatio, Keyboard, Dimensions} from 'react-native';
+import { Modal, View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, PixelRatio, Keyboard, Dimensions} from 'react-native';
 
 const injectScript = `
   (function () {
@@ -64,8 +64,18 @@ export default class RichTextEditor extends Component {
     }
   }
 
+  componentDidMount(){
+    this.webviewBridge.on = this.onBridgeMessage;
+  }
+
   componentWillUnmount() {
     this.keyboardEventListeners.forEach((eventListener) => eventListener.remove());
+  }
+
+  componentWillReceiveProps(newProps){
+    if(newProps.popping){
+      this._sendAction('popping');
+    }
   }
 
   _onKeyboardWillShow(event) {
@@ -290,15 +300,15 @@ export default class RichTextEditor extends Component {
 
   render() {
     //in release build, external html files in Android can't be required, so they must be placed in the assets folder and accessed via uri
-    const pageSource = PlatformIOS ? require('./editor.html') : { uri: 'file:///android_asset/editor.html' };
+    const pageSource = require('./editor.html');
     return (
       <View style={{flex: 1}}>
-        <WebViewBridge
+        <WebView
+          style={{flex: 1}}
           {...this.props}
           hideKeyboardAccessoryView={true}
           keyboardDisplayRequiresUserAction={false}
           ref={(r) => {this.webviewBridge = r}}
-          onBridgeMessage={(message) => this.onBridgeMessage(message)}
           injectedJavaScript={injectScript}
           source={pageSource}
           onLoad={() => this.init()}
@@ -324,7 +334,7 @@ export default class RichTextEditor extends Component {
   _sendAction(action, data) {
     let jsonString = JSON.stringify({type: action, data});
     jsonString = this.escapeJSONString(jsonString);
-    this.webviewBridge.sendToBridge(jsonString);
+    this.webviewBridge.sendJSON(jsonString);
   }
 
   //-------------------------------------------------------------------------------
