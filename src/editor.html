@@ -41,32 +41,6 @@
 			 ---------------
 
 			 */
-			$(document).ready(function(){
-			var RNMessageChannel = require('react-native-webview-messaging');
-			console.log('miau');
-						$('#zss_editor_title').style.backgroundColor= 'red';
-			function hideKeyboard(element) {
-			    element.attr('readonly', 'readonly'); // Force keyboard to hide on input field.
-			    element.attr('disabled', 'true'); // Force keyboard to hide on textarea field.
-			    setTimeout(function() {
-			        element.blur();  //actually close the keyboard
-			        // Remove readonly attribute after keyboard is hidden.
-			        element.removeAttr('readonly');
-			        element.removeAttr('disabled');
-			    }, 100);
-			}
-			RNMessageChannel.on('json', json => {
-				console.log('popping');
-				switch(json.type){
-					case 'popping':
-						$('#zss_editor_content').blur();
-						break;
-					default:
-						return;
-
-				}
-			});
-			});
 
 			function trim(s) {
 				return s.replace(/^\s+|\s+$/g, '');
@@ -879,7 +853,7 @@
 						title: anchor.text(),
 						url: anchor.attr('href')
 					};
-					WebViewBridge.send(JSON.stringify({type: 'LINK_TOUCHED', data: link}));
+					windows.postMessage(JSON.stringify({type: 'LINK_TOUCHED', data: link}));
 				});
 			}
 
@@ -946,7 +920,7 @@
 				zss_editor.focusTitle();
 
 				setTimeout(function() {
-					WebViewBridge.send(JSON.stringify({type: 'ZSS_INITIALIZED'}));
+					windows.postMessage(JSON.stringify({type: 'ZSS_INITIALIZED'}));
 				}, 20);
 
 			};//end
@@ -958,7 +932,7 @@
 				});
 
 				if (selectedTextChangeMessage !== zss_editor.previousSelectedTextChangeMessage) {
-					WebViewBridge.send(selectedTextChangeMessage);
+					windows.postMessage(selectedTextChangeMessage);
 					zss_editor.previousSelectedTextChangeMessage = selectedTextChangeMessage;
 				}
 			}
@@ -1013,13 +987,13 @@
 
 			// This will show up in the XCode console as we are able to push this into an NSLog.
 			zss_editor.debug = function(msg) {
-				WebViewBridge.send(JSON.stringify({type: 'LOG', data: msg}));
+				windows.postMessage(JSON.stringify({type: 'LOG', data: msg}));
 			};
 
 
 			zss_editor.setScrollPosition = function() {
 				var position = window.pageYOffset;
-				WebViewBridge.send(JSON.stringify({type: 'SCROLL', data: position}));
+				windows.postMessage(JSON.stringify({type: 'SCROLL', data: position}));
 			};
 
 			function setPlaceholder(editorId, placeholder) {
@@ -1404,7 +1378,7 @@
 
 			zss_editor.enableOnChange = function() {
 				$('#zss_editor_content').on('input', function(){
-					WebViewBridge.send(JSON.stringify({
+					windows.postMessage(JSON.stringify({
 						type: 'CONTENT_CHANGE',
 						data: {content: getHtml("zss_editor_content")}
 					}));
@@ -1592,7 +1566,7 @@
 				});
 
 				if (selectionChangeMessage !== zss_editor.previousSelectionChangeMessage) {
-					WebViewBridge.send(selectionChangeMessage);
+					windows.postMessage(selectionChangeMessage);
 					zss_editor.previousSelectionChangeMessage = selectionChangeMessage;
 				}
 			}
@@ -1651,13 +1625,13 @@
 
 			zss_editor.setTitleFocusHandler = function() {
 				addFocusEvent('zss_editor_title', function() {
-					WebViewBridge.send(JSON.stringify({type: 'TITLE_FOCUSED'}));
+					windows.postMessage(JSON.stringify({type: 'TITLE_FOCUSED'}));
 				});
 			};
 
 			zss_editor.setContentFocusHandler = function() {
 				addFocusEvent('zss_editor_content', function() {
-					WebViewBridge.send(JSON.stringify({type: 'CONTENT_FOCUSED'}));
+					windows.postMessage(JSON.stringify({type: 'CONTENT_FOCUSED'}));
 				});
 			};
 

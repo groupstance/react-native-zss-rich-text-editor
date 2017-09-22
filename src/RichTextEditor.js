@@ -1,8 +1,17 @@
 import React, {Component, PropTypes} from 'react';
 import {InjectedMessageHandler} from './WebviewMessageHandler';
-import { WebView } from 'react-native-webview-messaging/WebView';
 import {actions, messages} from './const';
-import { Modal, View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, PixelRatio, Keyboard, Dimensions} from 'react-native';
+import { Modal, 
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Platform,
+  PixelRatio,
+  Keyboard,
+  Dimensions,
+  WebView} from 'react-native';
 
 const injectScript = `
   (function () {
@@ -74,7 +83,7 @@ export default class RichTextEditor extends Component {
 
   componentWillReceiveProps(newProps){
     if(newProps.popping){
-      this._sendAction('popping');
+      this.webviewBridge.injectJavaScript(`zss_editor.blurTitleEditor();zss_editor.blurContentEditor();`);
     }
   }
 
@@ -309,7 +318,7 @@ export default class RichTextEditor extends Component {
           hideKeyboardAccessoryView={true}
           keyboardDisplayRequiresUserAction={false}
           ref={(r) => {this.webviewBridge = r}}
-          injectedJavaScript={injectScript}
+          onMessage={this.onBridgeMessage}
           source={pageSource}
           onLoad={() => this.init()}
           javaScriptEnabled={true}
@@ -335,8 +344,7 @@ export default class RichTextEditor extends Component {
 
   _sendAction(action, data) {
     let jsonString = JSON.stringify({type: action, data});
-    jsonString = this.escapeJSONString(jsonString);
-    this.webviewBridge.sendJSON(jsonString);
+    this.webviewBridge.injectJavaScript(InjectedMessageHandler(jsonString));
   }
 
   //-------------------------------------------------------------------------------
