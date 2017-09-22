@@ -302,7 +302,7 @@ export default class RichTextEditor extends Component {
     //in release build, external html files in Android can't be required, so they must be placed in the assets folder and accessed via uri
     const pageSource = require('./editor.html');
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1}} ref={(view)=>this.wrapper = view}>
         <WebView
           style={{flex: 1}}
           {...this.props}
@@ -312,6 +312,8 @@ export default class RichTextEditor extends Component {
           injectedJavaScript={injectScript}
           source={pageSource}
           onLoad={() => this.init()}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
         />
         {this._renderLinkModal()}
       </View>
