@@ -3,22 +3,22 @@ import {ListView, View, TouchableOpacity, Image, StyleSheet} from 'react-native'
 import {actions} from './const';
 
 const defaultActions = [
-  actions.insertImage,
   actions.setBold,
   actions.setItalic,
-  actions.insertBulletsList,
   actions.insertOrderedList,
-  actions.insertLink
+  actions.insertBulletsList,
+  actions.insertLink,
+  actions.insertImage,
 ];
 
 function getDefaultIcon() {
   const texts = {};
-  texts[actions.insertImage] = require('../img/icon_format_media.png');
   texts[actions.setBold] = require('../img/icon_format_bold.png');
   texts[actions.setItalic] = require('../img/icon_format_italic.png');
-  texts[actions.insertBulletsList] = require('../img/icon_format_ul.png');
   texts[actions.insertOrderedList] = require('../img/icon_format_ol.png');
+  texts[actions.insertBulletsList] = require('../img/icon_format_ul.png');
   texts[actions.insertLink] = require('../img/icon_format_link.png');
+  texts[actions.insertImage] = require('../img/icon_format_media.png');
   return texts;
 }
 
@@ -45,7 +45,8 @@ export default class RichTextToolbar extends Component {
       editor: undefined,
       selectedItems: [],
       actions,
-      ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.getRows(actions, []))
+      ds1: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.getRows(actions, []).slice(0,4)),
+      ds2: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.getRows(actions, []).slice(4))
     };
   }
 
@@ -104,7 +105,7 @@ export default class RichTextToolbar extends Component {
       <TouchableOpacity
           key={action}
           style={[
-            {height: 50, width: 50, justifyContent: 'center'},
+            {height: 35, width: 35, justifyContent: 'center'},
             selected ? this._getButtonSelectedStyle() : this._getButtonUnselectedStyle()
           ]}
           onPress={() => this._onPress(action)}
@@ -123,12 +124,18 @@ export default class RichTextToolbar extends Component {
   render() {
     return (
       <View
-          style={[{height: 50, backgroundColor: '#D3D3D3', alignItems: 'center'}, this.props.style]}
+          style={[{height: 40, backgroundColor: '#D3D3D3', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row'}, this.props.style]}
       >
         <ListView
             horizontal
             contentContainerStyle={{flexDirection: 'row'}}
-            dataSource={this.state.ds}
+            dataSource={this.state.ds1}
+            renderRow= {(row) => this._renderAction(row.action, row.selected)}
+        />
+        <ListView
+            horizontal
+            contentContainerStyle={{flexDirection: 'row'}}
+            dataSource={this.state.ds2}
             renderRow= {(row) => this._renderAction(row.action, row.selected)}
         />
       </View>

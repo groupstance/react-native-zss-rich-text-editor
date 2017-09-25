@@ -853,7 +853,7 @@
 						title: anchor.text(),
 						url: anchor.attr('href')
 					};
-					windows.postMessage(JSON.stringify({type: 'LINK_TOUCHED', data: link}));
+					window.postMessage(JSON.stringify({type: 'LINK_TOUCHED', data: link}));
 				});
 			}
 
@@ -920,7 +920,7 @@
 				zss_editor.focusTitle();
 
 				setTimeout(function() {
-					windows.postMessage(JSON.stringify({type: 'ZSS_INITIALIZED'}));
+					window.postMessage(JSON.stringify({type: 'ZSS_INITIALIZED'}));
 				}, 20);
 
 			};//end
@@ -932,7 +932,7 @@
 				});
 
 				if (selectedTextChangeMessage !== zss_editor.previousSelectedTextChangeMessage) {
-					windows.postMessage(selectedTextChangeMessage);
+					window.postMessage(selectedTextChangeMessage);
 					zss_editor.previousSelectedTextChangeMessage = selectedTextChangeMessage;
 				}
 			}
@@ -987,13 +987,13 @@
 
 			// This will show up in the XCode console as we are able to push this into an NSLog.
 			zss_editor.debug = function(msg) {
-				windows.postMessage(JSON.stringify({type: 'LOG', data: msg}));
+				window.postMessage(JSON.stringify({type: 'LOG', data: msg}));
 			};
 
 
 			zss_editor.setScrollPosition = function() {
 				var position = window.pageYOffset;
-				windows.postMessage(JSON.stringify({type: 'SCROLL', data: position}));
+				window.postMessage(JSON.stringify({type: 'SCROLL', data: position}));
 			};
 
 			function setPlaceholder(editorId, placeholder) {
@@ -1378,7 +1378,7 @@
 
 			zss_editor.enableOnChange = function() {
 				$('#zss_editor_content').on('input', function(){
-					windows.postMessage(JSON.stringify({
+					window.postMessage(JSON.stringify({
 						type: 'CONTENT_CHANGE',
 						data: {content: getHtml("zss_editor_content")}
 					}));
@@ -1566,7 +1566,7 @@
 				});
 
 				if (selectionChangeMessage !== zss_editor.previousSelectionChangeMessage) {
-					windows.postMessage(selectionChangeMessage);
+					window.postMessage(selectionChangeMessage);
 					zss_editor.previousSelectionChangeMessage = selectionChangeMessage;
 				}
 			}
@@ -1625,13 +1625,13 @@
 
 			zss_editor.setTitleFocusHandler = function() {
 				addFocusEvent('zss_editor_title', function() {
-					windows.postMessage(JSON.stringify({type: 'TITLE_FOCUSED'}));
+					window.postMessage(JSON.stringify({type: 'TITLE_FOCUSED'}));
 				});
 			};
 
 			zss_editor.setContentFocusHandler = function() {
 				addFocusEvent('zss_editor_content', function() {
-					windows.postMessage(JSON.stringify({type: 'CONTENT_FOCUSED'}));
+					window.postMessage(JSON.stringify({type: 'CONTENT_FOCUSED'}));
 				});
 			};
 

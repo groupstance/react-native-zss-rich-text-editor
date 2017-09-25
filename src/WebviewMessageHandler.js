@@ -8,17 +8,17 @@ export const InjectedMessageHandler = (message) => {
         case actions.enableOnChange:
           return `zss_editor.enableOnChange()`;
         case actions.setTitleHtml:
-          return `zss_editor.setTitleHTML(${action.data})`;
+          return `zss_editor.setTitleHTML(JSON.parse('${JSON.stringify(action.data)}'))`;
         case actions.toggleTitle:
-          return `zss_editor.toggleTitle(${action.data})`;
+          return `zss_editor.toggleTitle(JSON.parse('${JSON.stringify(action.data)}'))`;
         case actions.hideTitle:
-          return `zss_editor.hideTitle(${action.data})`;
+          return `zss_editor.hideTitle(JSON.parse('${JSON.stringify(action.data)}'))`;
           
         case actions.showTitle:
-          return `zss_editor.showTitle(${action.data})`;
+          return `zss_editor.showTitle(JSON.parse('${JSON.stringify(action.data)}'))`;
           
         case actions.setContentHtml:
-          return `zss_editor.setContentHTML(${action.data})`;
+          return `zss_editor.setContentHTML(JSON.parse('${JSON.stringify(action.data)}'))`;
           
         case actions.blurTitleEditor:
           return `zss_editor.blurTitleEditor()`;
@@ -78,13 +78,13 @@ export const InjectedMessageHandler = (message) => {
           return `zss_editor.setOrderedList()`;
           
         case actions.insertLink:
-          return `zss_editor.insertLink(${action.data.url}, ${action.data.title})`;
+          return `zss_editor.insertLink('${action.data.url}', '${action.data.title}')`;
           
         case actions.updateLink:
-          return `zss_editor.updateLink(${action.data.url}, ${action.data.title})`;
+          return `zss_editor.updateLink('${action.data.url}', '${action.data.title}')`;
           
         case actions.insertImage:
-          return `zss_editor.insertImage(${action.data})`;
+          return `zss_editor.insertImage(JSON.parse('${JSON.stringify(action.data)}'))`;
           
         case actions.setSubscript:
           return `zss_editor.setSubscript()`;
@@ -105,21 +105,21 @@ export const InjectedMessageHandler = (message) => {
           return `zss_editor.setOutdent()`;
           
         case actions.setTitlePlaceholder:
-          return `zss_editor.setTitlePlaceholder(${action.data})`;
+          return `zss_editor.setTitlePlaceholder(JSON.parse('${JSON.stringify(action.data)}'))`;
           
         case actions.setContentPlaceholder:
-          return `zss_editor.setContentPlaceholder(${action.data})`;
+          return `zss_editor.setContentPlaceholder(JSON.parse('${JSON.stringify(action.data)}'))`;
           
         case actions.getTitleHtml:
           return `var html = zss_editor.getTitleHTML();
-            windows.postMessage(JSON.stringify({type: '${messages.TITLE_HTML_RESPONSE}', data: html}));`;
+            window.postMessage(JSON.stringify({type: '${messages.TITLE_HTML_RESPONSE}', data: html}));`;
           
         case actions.getTitleText:
           return `var html = zss_editor.getTitleText()
-            windows.postMessage(JSON.stringify({type: '${messages.TITLE_TEXT_RESPONSE}', data: html}));`;
+            window.postMessage(JSON.stringify({type: '${messages.TITLE_TEXT_RESPONSE}', data: html}));`;
         case actions.getContentHtml:
           return `var html = zss_editor.getContentHTML();
-            windows.postMessage(JSON.stringify({type: '${messages.CONTENT_HTML_RESPONSE}', data: html}));`;
+            window.postMessage(JSON.stringify({type: '${messages.CONTENT_HTML_RESPONSE}', data: html}));`;
         case actions.setTitleFocusHandler:
           return `zss_editor.setTitleFocusHandler()`;
           
@@ -128,7 +128,7 @@ export const InjectedMessageHandler = (message) => {
           
         case actions.getSelectedText:
           return `var selectedText = getSelection().toString();
-            windows.postMessage(JSON.stringify({type: '${messages.SELECTED_TEXT_RESPONSE}', data: selectedText}));`;
+            window.postMessage(JSON.stringify({type: '${messages.SELECTED_TEXT_RESPONSE}', data: selectedText}));`;
         case actions.focusContent:
           return `zss_editor.focusContent()`;
           
@@ -142,25 +142,25 @@ export const InjectedMessageHandler = (message) => {
           return `zss_editor.restorerange()`;
           
         case actions.setCustomCSS:
-          return `zss_editor.setCustomCSS(${action.data})`;
+          return `zss_editor.setCustomCSS(JSON.parse('${JSON.stringify(action.data)}'))`;
           
         case actions.setTextColor:
-          return `zss_editor.setTextColor(${action.data})`;
+          return `zss_editor.setTextColor(JSON.parse('${JSON.stringify(action.data)}'))`;
           
         case actions.setBackgroundColor:
-          return `zss_editor.setBackgroundColor(${action.data})`;
+          return `zss_editor.setBackgroundColor(JSON.parse('${JSON.stringify(action.data)}'))`;
           
         case actions.init:
           return `zss_editor.init()`;
           
         case actions.setEditorHeight:
-          return `zss_editor.setEditorHeight(${action.data})`;
+          return `zss_editor.setEditorHeight(JSON.parse('${JSON.stringify(action.data)}'))`;
           
         case actions.setFooterHeight:
-          return `zss_editor.setFooterHeight(${action.data})`;
+          return `zss_editor.setFooterHeight(JSON.parse('${JSON.stringify(action.data)}'))`;
           
         case actions.setPlatform:
-          return `zss_editor.setPlatform(${action.data})`;
+          return `zss_editor.setPlatform(JSON.parse('${JSON.stringify(action.data)}'))`;
           
       }
     };
