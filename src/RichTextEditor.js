@@ -81,12 +81,6 @@ export default class RichTextEditor extends Component {
     this.keyboardEventListeners.forEach((eventListener) => eventListener.remove());
   }
 
-  componentWillReceiveProps(newProps){
-    if(newProps.popping){
-      this.webviewBridge.injectJavaScript(`zss_editor.blurTitleEditor();zss_editor.blurContentEditor();`);
-    }
-  }
-
   _onKeyboardWillShow(event) {
     console.log('!!!!', event);
     const newKeyboardHeight = event.endCoordinates.height;
