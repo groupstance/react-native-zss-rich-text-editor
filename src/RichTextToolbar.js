@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {ListView, View, TouchableOpacity, Image, StyleSheet} from 'react-native';
+import {ListView, View, TouchableOpacity, Image, StyleSheet, Text} from 'react-native';
 import {actions} from './const';
 
 const defaultActions = [
@@ -18,7 +18,7 @@ function getDefaultIcon() {
   texts[actions.insertOrderedList] = require('../img/icon_format_ol.png');
   texts[actions.insertBulletsList] = require('../img/icon_format_ul.png');
   texts[actions.insertLink] = require('../img/icon_format_link.png');
-  texts[actions.insertImage] = require('../img/icon_format_media.png');
+  texts[actions.insertImage] = require('../img/icon_format_attachment.png');
   return texts;
 }
 
@@ -110,7 +110,7 @@ export default class RichTextToolbar extends Component {
           ]}
           onPress={() => this._onPress(action)}
       >
-        {icon ? <Image source={icon} style={{tintColor: selected ? this.props.selectedIconTint : this.props.iconTint}}/> : null}
+        {icon && <Image source={icon} style={{tintColor: selected ? this.props.selectedIconTint : this.props.iconTint}}/>}
       </TouchableOpacity>
     );
   }
@@ -134,7 +134,7 @@ export default class RichTextToolbar extends Component {
         />
         <ListView
             horizontal
-            contentContainerStyle={{flexDirection: 'row'}}
+            contentContainerStyle={{flexDirection: 'row', marginRight: -75}}
             dataSource={this.state.ds2}
             renderRow= {(row) => this._renderAction(row.action, row.selected)}
         />
