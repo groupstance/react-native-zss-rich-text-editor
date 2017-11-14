@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {ListView, View, TouchableOpacity, Image, StyleSheet, Text} from 'react-native';
+import {Dimensions, FlatList, View, TouchableOpacity, Image, StyleSheet, Text} from 'react-native';
 import {actions} from './const';
 
 const defaultActions = [
@@ -45,8 +45,8 @@ export default class RichTextToolbar extends Component {
       editor: undefined,
       selectedItems: [],
       actions,
-      ds1: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.getRows(actions, []).slice(0,4)),
-      ds2: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.getRows(actions, []).slice(4))
+      ds1: this.getRows(actions, []).slice(0,4),
+      ds2: this.getRows(actions, []).slice(4)
     };
   }
 
@@ -124,20 +124,27 @@ export default class RichTextToolbar extends Component {
   render() {
     return (
       <View
-          style={[{height: 40, backgroundColor: '#D3D3D3', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row'}, this.props.style]}
+          style={[{height: 40, backgroundColor: '#D3D3D3', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', width: Dimensions.get('window').width, paddingRight: 20}, this.props.style]}
       >
-        <ListView
+        <View>
+          <FlatList
+            style={{flex: 1}}
             horizontal
             contentContainerStyle={{flexDirection: 'row'}}
-            dataSource={this.state.ds1}
-            renderRow= {(row) => this._renderAction(row.action, row.selected)}
-        />
-        <ListView
+            data={this.state.ds1}
+            renderItem= {({item}) => this._renderAction(item.action, item.selected)}
+            keyExtractor={(item, index) => index}
+          />
+        </View>
+        <View>
+          <FlatList
             horizontal
-            contentContainerStyle={{flexDirection: 'row', marginRight: -75}}
-            dataSource={this.state.ds2}
-            renderRow= {(row) => this._renderAction(row.action, row.selected)}
-        />
+            contentContainerStyle={{flexDirection: 'row'}}
+            data={this.state.ds2}
+            renderItem= {({item}) => this._renderAction(item.action, item.selected)}
+            keyExtractor={(item, index) => index}
+          />
+        </View>
       </View>
     );
   }
