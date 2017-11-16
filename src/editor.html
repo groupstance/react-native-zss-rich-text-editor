@@ -1364,7 +1364,7 @@
 
 			function setHTML(editorId, html) {
 				var editor = $('#' + editorId);
-				editor.html(html);
+				editor.html(html.split('sin#gl$equ%oteh)ere').join("'").split('dou&ble#quote!he0re').join('"'));
 			}
 
 			zss_editor.setTitleHTML = function(html) {
@@ -1396,7 +1396,7 @@
 			};
 
 			zss_editor.setContentHTML = function(html) {
-				setHTML('zss_editor_content', html.split('dou&ble#quote!he0re').join('"'));
+				setHTML('zss_editor_content', html);
 			};
 
 			zss_editor.insertHTML = function(html) {

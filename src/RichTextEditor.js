@@ -161,8 +161,8 @@ export default class RichTextEditor extends Component {
           }
           this.setTitlePlaceholder(this.props.titlePlaceholder);
           this.setContentPlaceholder(this.props.contentPlaceholder);
-          this.setTitleHTML(this.props.initialTitleHTML);
-          this.setContentHTML(this.props.initialContentHTML.split('"').join('dou&ble#quote!he0re'));
+          this.setTitleHTML(this.props.initialTitleHTML.split('"').join('dou&ble#quote!he0re').split("'").join('sin#gl$equ%oteh)ere'));
+          this.setContentHTML(this.props.initialContentHTML.split('"').join('dou&ble#quote!he0re').split("'").join('sin#gl$equ%oteh)ere'));
 
           this.props.hiddenTitle && this.hideTitle();
           this.props.enableOnChange && this.enableOnChange();
