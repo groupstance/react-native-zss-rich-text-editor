@@ -25,19 +25,6 @@ function getDefaultIcon() {
 
 export default class RichTextToolbar extends Component {
 
-  static propTypes = {
-    getEditor: PropTypes.func.isRequired,
-    actions: PropTypes.array,
-    onPressAddLink: PropTypes.func,
-    onPressAddImage: PropTypes.func,
-    selectedButtonStyle: PropTypes.object,
-    iconTint: PropTypes.any,
-    selectedIconTint: PropTypes.any,
-    unselectedButtonStyle: PropTypes.object,
-    renderAction: PropTypes.func,
-    iconMap: PropTypes.object,
-  };
-
   constructor(props) {
     super(props);
     const actions = this.props.actions ? this.props.actions : defaultActions;
@@ -50,7 +37,7 @@ export default class RichTextToolbar extends Component {
     };
   }
 
-  componentDidReceiveProps(newProps) {
+  componentWillReceiveProps(newProps) {
     const actions = newProps.actions ? newProps.actions : defaultActions;
     this.setState({
       actions,
