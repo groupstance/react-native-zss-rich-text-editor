@@ -41,7 +41,6 @@ export default class RichTextToolbar extends Component {
     const actions = newProps.actions ? newProps.actions : defaultActions;
     this.setState({
       actions,
-      ds: this.state.ds.cloneWithRows(this.getRows(actions, this.state.selectedItems))
     });
   }
 
@@ -63,7 +62,6 @@ export default class RichTextToolbar extends Component {
     if (selectedItems !== this.state.selectedItems) {
       this.setState({
         selectedItems,
-        ds: this.state.ds.cloneWithRows(this.getRows(this.state.actions, selectedItems))
       });
     }
   }
