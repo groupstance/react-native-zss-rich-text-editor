@@ -1,6 +1,6 @@
 {
   "_from": "react-native-zss-rich-text-editor",
-  "_id": "react-native-zss-rich-text-editor@1.0.2",
+  "_id": "react-native-zss-rich-text-editor@1.0.3",
   "_inBundle": false,
   "_integrity": "sha1-h+XESP5YCBtRuUfQd1MHAHNanKY=",
   "_location": "/react-native-zss-rich-text-editor",
@@ -27,9 +27,6 @@
     "url": "https://github.com/wix/react-native-zss-rich-text-editor/issues"
   },
   "bundleDependencies": false,
-  "dependencies": {
-    "react-native-webview-messaging": "^1.0.2"
-  },
   "deprecated": false,
   "description": "React Native Wrapper for ZSSRichTextEditor",
   "homepage": "https://github.com/wix/react-native-zss-rich-text-editor#readme",
@@ -44,5 +41,5 @@
     "type": "git",
     "url": "git+https://github.com/wix/react-native-zss-rich-text-editor.git"
   },
-  "version": "1.0.2"
+  "version": "1.0.3"
 }
