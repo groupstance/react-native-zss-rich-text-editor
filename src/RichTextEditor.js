@@ -5,6 +5,7 @@ import {actions, messages} from './const';
 import { Modal, 
   View,
   Text,
+  ScrollView,
   StyleSheet,
   TextInput,
   TouchableOpacity,
@@ -21,6 +22,8 @@ const injectScript = `
 `;
 
 const PlatformIOS = Platform.OS === 'ios';
+
+const LINE_HEIGHT = 20;
 
 export default class RichTextEditor extends Component {
   static propTypes = {
@@ -55,7 +58,9 @@ export default class RichTextEditor extends Component {
       linkInitialUrl: '',
       linkTitle: '',
       linkUrl: '',
-      keyboardHeight: 0
+      keyboardHeight: 0,
+      height: 0,
+      position: 0
     };
     this._selectedTextChangeListeners = [];
   }
@@ -166,7 +171,7 @@ export default class RichTextEditor extends Component {
           this.setContentHTML(this.props.initialContentHTML.split('"').join('dou&ble#quote!he0re').split("'").join('sin#gl$equ%oteh)ere'));
 
           this.props.hiddenTitle && this.hideTitle();
-          this.props.enableOnChange && this.enableOnChange();
+          this.enableOnChange();
 
           this.props.editorInitializedCallback && this.props.editorInitializedCallback();
 
@@ -179,9 +184,9 @@ export default class RichTextEditor extends Component {
         case messages.LOG:
           console.log('FROM ZSS', message.data);
           break;
-        case messages.SCROLL:
-          this.webviewBridge.setNativeProps({contentOffset: {y: message.data}});
-          break;
+        // case messages.SCROLL:
+        //   this.webviewBridge.setNativeProps({contentOffset: {y: message.data}});
+        //   break;
         case messages.TITLE_FOCUSED:
           this.titleFocusHandler && this.titleFocusHandler();
           break;
@@ -196,8 +201,24 @@ export default class RichTextEditor extends Component {
           break;
         }
         case messages.CONTENT_CHANGE: {
-          const content = message.data.content;
+          const { position, content } = message.data;
+          const { position: currentPosition, containerHeight } = this.state;
           this.state.onChange.map((listener) => listener(content));
+          
+          let newPos = Math.max(position - containerHeight + LINE_HEIGHT, 0);
+          
+          if (position > currentPosition && position - currentPosition < containerHeight - (LINE_HEIGHT * 1.5)) {
+            newPos = currentPosition;
+          } else if(position <= currentPosition) {
+            newPos = position
+          }
+          
+          this.setState(
+            {
+              height: Math.max(this.state.height, message.data.position + LINE_HEIGHT)
+            },
+            () => this.wrapper.scrollTo({ y: newPos })
+          )
           break;
         }
         case messages.SELECTED_TEXT_CHANGED: {
@@ -226,9 +247,9 @@ export default class RichTextEditor extends Component {
               <Text style={styles.inputTitle}>Title</Text>
               <View style={styles.inputWrapper}>
                 <TextInput
-                    style={styles.input}
-                    onChangeText={(text) => this.setState({linkTitle: text})}
-                    value={this.state.linkTitle}
+                  style={styles.input}
+                  onChangeText={(text) => this.setState({linkTitle: text})}
+                  value={this.state.linkTitle}
                 />
               </View>
               <Text style={[styles.inputTitle ,{marginTop: 10}]}>URL</Text>
@@ -302,14 +323,27 @@ export default class RichTextEditor extends Component {
     return PlatformIOS ? buttonText : buttonText.toUpperCase();
   }
 
+  setHeight = ({ nativeEvent: { layout: { height } } }) => {
+    this.setState({ height: Math.max(height, this.state.height), containerHeight: height });
+  }
+
+  recordPosition = ({ nativeEvent: { contentOffset : { y } } }) => {
+    this.setState({ position: y });
+  }
+
   render() {
     //in release build, external html files in Android can't be required, so they must be placed in the assets folder and accessed via uri
     const pageSource = require('./editor.html');
     return (
-      <View style={{flex: 1}} ref={(view)=>this.wrapper = view}>
+      <ScrollView
+        style={{ flex: 1 }}
+        ref={(view) => this.wrapper = view}
+        onLayout={this.setHeight}
+        onScroll={this.recordPosition}
+      >
         <WebView
-          style={{flex: 1}}
           {...this.props}
+          style={{height: this.state.height}}
           hideKeyboardAccessoryView={true}
           keyboardDisplayRequiresUserAction={false}
           ref={(r) => {this.webviewBridge = r}}
@@ -320,7 +354,7 @@ export default class RichTextEditor extends Component {
           domStorageEnabled={true}
         />
         {this._renderLinkModal()}
-      </View>
+      </ScrollView>
     );
   }
 
