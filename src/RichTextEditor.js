@@ -352,6 +352,7 @@ export default class RichTextEditor extends Component {
           onLoad={() => this.init()}
           javaScriptEnabled={true}
           domStorageEnabled={true}
+          originWhitelist={["*"]}
         />
         {this._renderLinkModal()}
       </ScrollView>
