@@ -14,6 +14,7 @@ import { Modal,
   Keyboard,
   Dimensions,
   WebView} from 'react-native';
+import { editor } from './editor';
 
 const injectScript = `
   (function () {
@@ -333,7 +334,7 @@ export default class RichTextEditor extends Component {
 
   render() {
     //in release build, external html files in Android can't be required, so they must be placed in the assets folder and accessed via uri
-    const pageSource = require('./editor.html');
+    //const pageSource = require('./editor.html');
     return (
       <ScrollView
         style={{ flex: 1 }}
@@ -348,7 +349,7 @@ export default class RichTextEditor extends Component {
           keyboardDisplayRequiresUserAction={false}
           ref={(r) => {this.webviewBridge = r}}
           onMessage={this.onBridgeMessage}
-          source={pageSource}
+          source={{html: editor}}
           onLoad={() => this.init()}
           javaScriptEnabled={true}
           domStorageEnabled={true}
