@@ -32,7 +32,7 @@
   "homepage": "https://github.com/wix/react-native-zss-rich-text-editor#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "index.js",
-  "name": "sebas-text-editor",
+  "name": "eact-native-zss-rich-text-editor",
   "peerDependencies": {
     "react": "*",
     "react-native": ">=0.31.0"
