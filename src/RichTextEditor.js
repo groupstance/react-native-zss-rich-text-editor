@@ -12,8 +12,8 @@ import { Modal,
   Platform,
   PixelRatio,
   Keyboard,
-  Dimensions,
-  WebView} from 'react-native';
+  Dimensions} from 'react-native';
+import { WebView } from 'react-native-webview';
 import { editor } from './editor';
 
 const injectScript = `
